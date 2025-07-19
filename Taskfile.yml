@@ -1,0 +1,66 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  # Main task
+  run:
+    desc: Build and run all microservices in the background for development.
+    cmds:
+      - docker compose up --build -d
+
+  stop:
+    desc: Stop all running microservices.
+    cmds:
+      - docker compose down
+
+  logs:
+    desc: Follow logs for all microservices.
+    cmds:
+      - docker compose logs -f
+
+  # Build task
+  build:
+    desc: Build all microservice containers.
+    cmds:
+      - docker compose build --no-cache
+
+  build-llm:
+    desc: Build the llm service container.
+    cmds:
+      - docker compose build llm
+
+  build-sentence:
+    desc: Build the sentence service container.
+    cmds:
+      - docker compose build sentence
+
+  build-vocabulary:
+    desc: Build the vocabulary service container.
+    cmds:
+      - docker compose build vocabulary
+
+  # Up task
+  up-llm:
+    desc: Up llm service container (and its dependencies).
+    deps: [build-llm]
+    cmds:
+      - docker compose up -d llm
+
+  up-sentence:
+    desc: Up sentence service container (and its dependencies).
+    deps: [build-sentence]
+    cmds:
+      - docker compose up -d sentence
+
+  up-vocabulary:
+    desc: Up vocabulary service container (and its dependencies).
+    deps: [build-vocabulary]
+    cmds:
+      - docker compose up -d vocabulary
+
+  # Clean up task
+  prune:
+    desc: Remove all stopped containers, networks, volumes, and dangling images.
+    cmds:
+      - docker system prune -af

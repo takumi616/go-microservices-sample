@@ -1,0 +1,25 @@
+services:
+  vocabulary:
+    build:
+      context: ./vocabulary
+      target: final
+    environment:
+      - VOCABULARY_REST_PORT=${VOCABULARY_REST_PORT}
+    ports:
+      - "${VOCABULARY_REST_PORT_LOCAL}:${VOCABULARY_REST_PORT}"
+  sentence:
+    build:
+      context: ./sentence
+      target: final
+    environment:
+      - SENTENCE_REST_PORT=${SENTENCE_REST_PORT}
+    ports:
+      - "${SENTENCE_REST_PORT_LOCAL}:${SENTENCE_REST_PORT}"
+  llm:
+    build:
+      context: ./llm
+      target: final
+    environment:
+      - LLM_REST_PORT=${LLM_REST_PORT}
+    ports:
+      - "${LLM_REST_PORT_LOCAL}:${LLM_REST_PORT}"
