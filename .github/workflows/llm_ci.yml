@@ -51,4 +51,3 @@ jobs:
       uses: k1LoW/octocov-action@v1
       with:
         config: ./.octocov.yml
-        coverage: ./llm/coverage.out
