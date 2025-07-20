@@ -7,11 +7,17 @@ import (
 	"os"
 )
 
-func main() {
+func setupMux() http.Handler {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/llms", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "LLM service")
-	})
+	mux.HandleFunc("/llms", llmHandler)
 
-	log.Fatal(http.ListenAndServe(":"+os.Getenv("LLM_REST_PORT"), mux))
+	return mux
+}
+
+func llmHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "LLM service")
+}
+
+func main() {
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("LLM_REST_PORT"), setupMux()))
 }
